@@ -284,21 +284,69 @@ func recommendResourceQuotas(namespace string) {
 
 // recommendLimitRangesFunc recommends limit ranges for the namespace
 func recommendLimitRangesFunc(namespace string) {
-	// Example logic for recommending limit ranges
+	// Example suggested values (could be based on data from Prometheus or other sources)
+	suggestedMinCPU := "50m"
+	suggestedMinMemory := "50Mi"
+	suggestedMaxCPU := "2"
+	suggestedMaxMemory := "2Gi"
+	suggestedDefaultCPU := "500m"
+	suggestedDefaultMemory := "500Mi"
+	suggestedDefaultRequestCPU := "100m"
+	suggestedDefaultRequestMemory := "100Mi"
+
+	// Convert suggested memory values to MiB for comparison
+	minMemoryMiB := convertMemoryToMiB(suggestedMinMemory)
+	maxMemoryMiB := convertMemoryToMiB(suggestedMaxMemory)
+	defaultMemoryMiB := convertMemoryToMiB(suggestedDefaultMemory)
+	defaultRequestMemoryMiB := convertMemoryToMiB(suggestedDefaultRequestMemory)
+
+	// Compute the maximum memory value from the suggested values
+	maxMemory := max(minMemoryMiB, maxMemoryMiB, defaultMemoryMiB, defaultRequestMemoryMiB)
+
+	// Print the recommended limit ranges
 	fmt.Println("Recommended Limit Ranges:")
 	fmt.Println("  limits:")
 	fmt.Println("    min:")
-	fmt.Println("      cpu: 50m")
-	fmt.Println("      memory: 50Mi")
+	fmt.Printf("      cpu: %s\n", suggestedMinCPU)
+	fmt.Printf("      memory: %s\n", suggestedMinMemory)
 	fmt.Println("    max:")
-	fmt.Println("      cpu: 2")
-	fmt.Println("      memory: 2Gi")
+	fmt.Printf("      cpu: %s\n", suggestedMaxCPU)
+	fmt.Printf("      memory: %s\n", formatMemory(maxMemory)) // Format the max memory value
 	fmt.Println("    default:")
-	fmt.Println("      cpu: 500m")
-	fmt.Println("      memory: 500Mi")
+	fmt.Printf("      cpu: %s\n", suggestedDefaultCPU)
+	fmt.Printf("      memory: %s\n", suggestedDefaultMemory)
 	fmt.Println("    defaultRequest:")
-	fmt.Println("      cpu: 100m")
-	fmt.Println("      memory: 100Mi")
+	fmt.Printf("      cpu: %s\n", suggestedDefaultRequestCPU)
+	fmt.Printf("      memory: %s\n", suggestedDefaultRequestMemory)
+}
+
+// convertMemoryToMiB converts a memory value in string format to MiB
+func convertMemoryToMiB(memory string) float64 {
+	var value float64
+	var unit string
+
+	fmt.Sscanf(memory, "%f%s", &value, &unit)
+
+	switch unit {
+	case "Gi":
+		return value * 1024
+	case "Mi":
+		return value
+	default:
+		// Assuming MiB if unit is unknown
+		return value
+	}
+}
+
+// max returns the maximum value from a list of values
+func max(values ...float64) float64 {
+	var maxValue float64
+	for _, value := range values {
+		if value > maxValue {
+			maxValue = value
+		}
+	}
+	return maxValue
 }
 
 func init() {
