@@ -1,0 +1,12 @@
+prometheus:
+  url: "http://localhost:9090"
+
+
+eth=https://eth-mainnet.g.alchemy.com/v2/BR-CeTQ_srkbpa-2OqulJKCOw2xrbFqT|https://mainnet.infura.io/v3/828eb84208d54048a1ee4731b24716ba,etharb=https://arb-mainnet.g.alchemy.com/v2/BR-CeTQ_srkbpa-2OqulJKCOw2xrbFqT
+
+
+
+eth=https://mainnet.infura.io/v3/828eb84208d54048a1ee4731b24716ba,etharb=https://arbitrum-mainnet.infura.io/v3/828eb84208d54048a1ee4731b24716ba
+
+
+eth=https://eth-mainnet.g.alchemy.com/v2/BR-CeTQ_srkbpa-2OqulJKCOw2xrbFqT|https://mainnet.infura.io/v3/828eb84208d54048a1ee4731b24716ba,t_eth=https://eth-sepolia.g.alchemy.com/v2/OGn9Yx0TNqXFJzBxKFyp55agESVOEdi7,etharb=https://arb-mainnet.g.alchemy.com/v2/H1jDeA1oCwjANOQ_qSnOt-gWX1HKcdNh|https://arbitrum-mainnet.infura.io/v3/828eb84208d54048a1ee4731b24716ba,t_etharb=https://arb-sepolia.g.alchemy.com/v2/PtNfXEq4XTNwaXaFxWlqJWMvFbJd4FwL

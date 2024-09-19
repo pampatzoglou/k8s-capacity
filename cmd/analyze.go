@@ -7,11 +7,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var pod string
-
-var recommendCmd = &cobra.Command{
-	Use:   "recommend",
-	Short: "Recommend resource allocations",
+var analyzeCmd = &cobra.Command{
+	Use:   "analyze",
+	Short: "Analyze resource usage and quotas",
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := pkg.NewPrometheusClient(promURL, logger)
 		if err != nil {
@@ -22,17 +20,15 @@ var recommendCmd = &cobra.Command{
 			logger.Fatal("Namespace is required")
 		}
 
-		// For simplicity, we are recommending CPU usage
 		result, err := client.QueryCPUUsageForNamespace(namespace)
 		if err != nil {
 			logger.WithError(err).Fatal("Error fetching CPU usage")
 		}
 
-		fmt.Printf("Recommended CPU usage for namespace '%s': %v\n", namespace, result)
+		fmt.Printf("Analysis for namespace '%s': CPU usage %v\n", namespace, result)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(recommendCmd)
-	recommendCmd.Flags().StringVarP(&pod, "pod", "p", "", "Pod to recommend resources for")
+	rootCmd.AddCommand(analyzeCmd)
 }
